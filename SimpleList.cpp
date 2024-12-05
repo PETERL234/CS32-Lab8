@@ -77,6 +77,11 @@ void SimpleList<T>::remove(int index) {
     if (index < 0 || index >= numElements) {
         throw InvalidIndexException();
     }
+
+    if constexpr (std::is_pointer<T>::value) {
+        delete elements[index];  // Free the specific element if T is a pointer
+    }
+
     for (int i = index; i < numElements - 1; ++i) {
         elements[i] = elements[i + 1];
     }
